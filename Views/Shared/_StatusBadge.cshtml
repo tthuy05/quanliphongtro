@@ -1,0 +1,33 @@
+<!-- _StatusBadge.cshtml -->
+@model string
+
+@{
+    string badgeClass = "bg-slate-50 text-slate-600 border-slate-200/50";
+    string textLabel = Model;
+
+    if (Model == "Paid" || Model == "Đã thanh toán")
+    {
+        badgeClass = "bg-emerald-50 text-emerald-700 border-emerald-100";
+        textLabel = "Đã thanh toán";
+    }
+    else if (Model == "Pending" || Model == "Chờ thanh toán")
+    {
+        badgeClass = "bg-amber-50 text-amber-700 border-amber-100";
+        textLabel = "Chờ thanh toán";
+    }
+    else if (Model == "Partial" || Model == "Thanh toán một phần")
+    {
+        badgeClass = "bg-sky-50 text-sky-700 border-sky-100";
+        textLabel = "Thanh toán một phần";
+    }
+    else if (Model == "Overdue" || Model == "Quá hạn")
+    {
+        badgeClass = "bg-rose-50 text-rose-700 border-rose-100";
+        textLabel = "Quá hạn";
+    }
+}
+
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xxs font-bold border @badgeClass select-none">
+    <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+    <span>@textLabel</span>
+</span>

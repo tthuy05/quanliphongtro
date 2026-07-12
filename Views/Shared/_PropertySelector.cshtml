@@ -1,0 +1,61 @@
+<!-- _PropertySelector.cshtml -->
+@model TroiSinhVien.Models.ViewModels.Dashboard.DashboardPageViewModel
+
+<div class="relative" x-data="{ open: false }" @@click.away="open = false">
+    <button @@click="open = !open"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all duration-200 text-left focus:outline-none focus:ring-2 focus:ring-indigo-600">
+        <div class="w-8.5 h-8.5 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 shrink-0">
+            <i data-lucide="building" class="w-4.5 h-4.5"></i>
+        </div>
+        <div class="hidden sm:block">
+            <div class="text-xs font-semibold text-slate-400 leading-none">Cơ sở đang xem</div>
+            <div class="text-sm font-bold text-slate-800 flex items-center gap-1.5 mt-0.5">
+                <span x-text="activeProperty">@Model.Properties.Find(p => p.Id == Model.ActivePropertyId)?.Name</span>
+                <i data-lucide="chevrons-up-down" class="w-3.5 h-3.5 text-slate-400"></i>
+            </div>
+        </div>
+        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 sm:hidden"></i>
+    </button>
+
+    <!-- Property Dropdown Selector Options list -->
+    <div class="absolute left-0 mt-2 w-80 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 overflow-hidden"
+         x-show="open"
+         x-transition:enter="transition ease-out duration-200 transform"
+         x-transition:enter-start="opacity-0 scale-95 -translate-y-2"
+         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150 transform"
+         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+         x-transition:leave-end="opacity-0 scale-95 -translate-y-2"
+         style="display: none;"
+    >
+        <div class="px-4 py-3 border-b border-slate-100 bg-slate-50">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Danh sách cơ sở của bạn</span>
+        </div>
+        <div class="p-2 space-y-1 max-h-80 overflow-y-auto scrollbar-thin">
+            @foreach (var property in Model.Properties)
+            {
+                <a href="?propertyId=@property.Id"
+                   @@click="activeProperty = '@property.Name'; open = false;"
+                   class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors group @(property.Id == Model.ActivePropertyId ? "bg-indigo-50/50" : "")">
+                    <div class="w-8.5 h-8.5 rounded-lg flex items-center justify-center shrink-0 @(property.Id == Model.ActivePropertyId ? "bg-indigo-100 text-indigo-700" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200")">
+                        <i data-lucide="building" class="w-4 h-4"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-sm font-bold text-slate-800 truncate">@property.Name</div>
+                        <div class="text-xs text-slate-400 truncate mt-0.5">@property.Address</div>
+                        <div class="text-xs font-medium text-slate-500 mt-1 flex items-center gap-1">
+                            <i data-lucide="key" class="w-3 h-3 text-slate-400"></i>
+                            <span>@property.RoomCount phòng</span>
+                        </div>
+                    </div>
+                    @if (property.Id == Model.ActivePropertyId)
+                    {
+                        <div class="shrink-0 text-indigo-600 self-center">
+                            <i data-lucide="check" class="w-4.5 h-4.5"></i>
+                        </div>
+                    }
+                </a>
+            }
+        </div>
+    </div>
+</div>

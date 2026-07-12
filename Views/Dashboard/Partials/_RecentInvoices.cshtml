@@ -1,0 +1,86 @@
+<!-- _RecentInvoices.cshtml -->
+@model TroiSinhVien.Models.ViewModels.Dashboard.DashboardPageViewModel
+
+<div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm select-none">
+    <div class="flex items-center justify-between gap-3 shrink-0 mb-5">
+        <div>
+            <h3 class="text-base font-extrabold text-slate-800">Hóa đơn gần đây</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Danh sách hóa đơn dịch vụ tháng mới nhất</p>
+        </div>
+        <a href="#" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">Xem tất cả</a>
+    </div>
+
+    <!-- Desktop Grid Table (hidden on mobile, visible on sm and up) -->
+    <div class="hidden sm:block overflow-x-auto">
+        <table class="w-full text-left border-collapse text-sm">
+            <thead>
+                <tr class="border-b border-slate-100 text-xxs font-bold text-slate-400 uppercase tracking-wider">
+                    <th class="pb-3 pr-4">Mã phòng</th>
+                    <th class="pb-3 px-4">Người thuê</th>
+                    <th class="pb-3 px-4">Kỳ hóa đơn</th>
+                    <th class="pb-3 px-4">Tổng tiền</th>
+                    <th class="pb-3 px-4">Hạn đóng</th>
+                    <th class="pb-3 px-4">Trạng thái</th>
+                    <th class="pb-3 pl-4 text-right">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50">
+                @foreach (var invoice in Model.RecentInvoices)
+                {
+                    <tr class="hover:bg-slate-50/50 transition-colors group">
+                        <td class="py-3.5 pr-4 font-bold text-slate-800">@invoice.RoomCode</td>
+                        <td class="py-3.5 px-4 text-slate-600 font-semibold">@invoice.TenantName</td>
+                        <td class="py-3.5 px-4 text-slate-400 font-medium">@invoice.BillingMonth</td>
+                        <td class="py-3.5 px-4 text-slate-800 font-extrabold">@invoice.TotalAmountFormatted</td>
+                        <td class="py-3.5 px-4 text-slate-500 font-medium">@invoice.DueDate.ToString("dd/MM/yyyy")</td>
+                        <td class="py-3.5 px-4">
+                            @await Html.PartialAsync("_StatusBadge", invoice.Status)
+                        </td>
+                        <td class="py-3.5 pl-4 text-right">
+                            <div class="flex items-center justify-end gap-2.5">
+                                <button class="p-1 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all" title="Chi tiết hóa đơn">
+                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                </button>
+                                <button class="p-1 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 transition-all" title="Xác nhận thanh toán">
+                                    <i data-lucide="check" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mobile view cards stack (Visible only on xs screens) -->
+    <div class="sm:hidden space-y-3">
+        @foreach (var invoice in Model.RecentInvoices)
+        {
+            <div class="p-4 border border-slate-100 hover:border-slate-200 bg-slate-50/30 rounded-xl space-y-3 transition-colors relative">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-extrabold text-slate-800">Phòng @invoice.RoomCode</span>
+                    @await Html.PartialAsync("_StatusBadge", invoice.Status)
+                </div>
+                
+                <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
+                    <div>
+                        <span class="text-xxs text-slate-400 uppercase block leading-none">Khách thuê</span>
+                        <span class="text-slate-700 block mt-1">@invoice.TenantName</span>
+                    </div>
+                    <div>
+                        <span class="text-xxs text-slate-400 uppercase block leading-none">Tổng tiền</span>
+                        <span class="text-slate-800 font-extrabold block mt-1">@invoice.TotalAmountFormatted</span>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Hạn: @invoice.DueDate.ToString("dd/MM/yyyy")</span>
+                    <div class="flex items-center gap-2">
+                        <button class="px-2.5 py-1 text-xxs font-bold text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors border border-indigo-100">Chi tiết</button>
+                        <button class="px-2.5 py-1 text-xxs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-all">Thu tiền</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<!-- _ToastContainer.cshtml -->
+<div class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full font-sans select-none"
+     x-data="{ toasts: [] }"
+     @@show-toast.window="
+         const id = Date.now() + Math.random();
+         toasts.push({
+             id: id,
+             message: $event.detail.message,
+             type: $event.detail.type || 'info',
+             icon: $event.detail.type === 'success' ? 'check-circle' : 
+                   $event.detail.type === 'danger' ? 'x-circle' : 
+                   $event.detail.type === 'warning' ? 'alert-triangle' : 'info'
+         });
+         setTimeout(() => {
+             toasts = toasts.filter(t => t.id !== id);
+         }, 4000);
+     "
+>
+    <template x-for="toast in toasts" :key="toast.id">
+        <div class="flex items-center gap-3 p-4 bg-slate-900 border border-slate-800 text-white rounded-2xl shadow-2xl relative overflow-hidden transition-all duration-300 transform"
+             x-init="$nextTick(() => { lucide.createIcons(); })"
+             x-transition:enter="transition ease-out duration-300 transform"
+             x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200 transform"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+        >
+            <!-- Border highlights accent color -->
+            <div class="absolute left-0 top-0 bottom-0 w-1.5"
+                 :class="toast.type === 'success' ? 'bg-emerald-500' :
+                         toast.type === 'danger' ? 'bg-rose-500' :
+                         toast.type === 'warning' ? 'bg-amber-500' : 'bg-indigo-500'">
+            </div>
+
+            <!-- Dynamic Icon -->
+            <div class="shrink-0"
+                 :class="toast.type === 'success' ? 'text-emerald-400' :
+                         toast.type === 'danger' ? 'text-rose-400' :
+                         toast.type === 'warning' ? 'text-amber-400' : 'text-indigo-400'">
+                <!-- Lucide placeholder icon -->
+                <i :data-lucide="toast.icon" class="w-5 h-5"></i>
+            </div>
+
+            <!-- Message text -->
+            <p class="text-xs font-semibold flex-1 leading-normal pr-4" x-text="toast.message"></p>
+
+            <!-- Close icon button -->
+            <button @@click="toasts = toasts.filter(t => t.id !== toast.id)"
+                    class="p-1 rounded text-slate-500 hover:text-white transition-colors self-start shrink-0">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+        </div>
+    </template>
+</div>

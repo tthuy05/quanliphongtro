@@ -1,0 +1,50 @@
+<!-- _ExpiringContracts.cshtml -->
+@model TroiSinhVien.Models.ViewModels.Dashboard.DashboardPageViewModel
+
+<div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm select-none flex flex-col justify-between h-full">
+    <!-- Header -->
+    <div class="flex items-center justify-between gap-3 mb-4 shrink-0">
+        <div>
+            <h3 class="text-base font-extrabold text-slate-800">Hợp đồng sắp hết hạn</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Thời hạn kết thúc thuê trong vòng 30 ngày</p>
+        </div>
+        <i data-lucide="calendar" class="w-5 h-5 text-indigo-500 shrink-0"></i>
+    </div>
+
+    <!-- Data Rows -->
+    <div class="flex-1 overflow-y-auto space-y-3.5 max-h-[300px] scrollbar-thin">
+        @if (Model.ExpiringContracts.Count == 0)
+        {
+            <div class="py-12 text-center text-slate-400">
+                <i data-lucide="check-circle" class="w-8 h-8 mx-auto text-emerald-500 mb-2"></i>
+                <p class="text-xs">Không có hợp đồng nào sắp hết hạn</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var lease in Model.ExpiringContracts)
+            {
+                <div class="p-3 bg-slate-50 rounded-xl hover:bg-slate-100 border border-slate-100/30 transition-all flex items-center justify-between gap-3 group">
+                    <div class="min-w-0 flex items-start gap-2.5">
+                        <!-- Initials avatar -->
+                        <div class="w-8.5 h-8.5 rounded-lg bg-indigo-50 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0">
+                            <span>@lease.TenantName.Substring(0, Math.Min(2, lease.TenantName.Split(' ').Last().Length)).ToUpper()</span>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-bold text-slate-800 truncate">@lease.TenantName</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Phòng: <span class="font-extrabold text-slate-700">@lease.RoomCode</span></div>
+                            <div class="text-xxs text-slate-400 mt-1">Hạn: @lease.ExpiryDate.ToString("dd/MM/yyyy")</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-end gap-1.5 shrink-0">
+                        <span class="inline-flex px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 border border-indigo-100 text-xxs font-bold">Còn @lease.RemainingDays ngày</span>
+                        <button class="px-2.5 py-1 text-xxs font-bold text-indigo-600 hover:bg-indigo-50 border border-indigo-100 rounded-lg transition-colors select-none">
+                            Gia hạn
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

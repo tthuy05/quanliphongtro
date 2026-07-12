@@ -1,0 +1,31 @@
+<!-- _ActivityTimeline.cshtml -->
+@model TroiSinhVien.Models.ViewModels.Dashboard.DashboardPageViewModel
+
+<div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm select-none flex flex-col justify-between h-full">
+    <!-- Header -->
+    <div class="flex items-center justify-between gap-3 mb-5 shrink-0">
+        <div>
+            <h3 class="text-base font-extrabold text-slate-800">Hoạt động gần đây</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Nhật ký hoạt động vận hành trong ngày</p>
+        </div>
+        <i data-lucide="activity" class="w-5 h-5 text-indigo-500 shrink-0"></i>
+    </div>
+
+    <!-- Timeline List -->
+    <div class="flex-1 space-y-5 relative pl-4 border-l border-slate-100 max-h-[350px] overflow-y-auto scrollbar-thin">
+        @foreach (var activity in Model.ActivityTimeline)
+        {
+            <div class="relative group">
+                <!-- Outer timeline node circle icon -->
+                <div class="absolute -left-[27px] top-0 w-6.5 h-6.5 rounded-full bg-white border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-indigo-600 group-hover:border-indigo-100 transition-colors shadow-sm shrink-0">
+                    <i data-lucide="@activity.Icon" class="w-3.5 h-3.5"></i>
+                </div>
+                
+                <div class="min-w-0 pl-3">
+                    <div class="text-xs font-semibold text-slate-500 leading-none">@activity.TimestampText</div>
+                    <p class="text-sm font-bold text-slate-800 leading-snug mt-1.5 group-hover:text-indigo-600 transition-colors">@activity.Title</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

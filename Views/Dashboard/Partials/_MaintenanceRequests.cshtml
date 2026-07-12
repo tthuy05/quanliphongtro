@@ -1,0 +1,86 @@
+<!-- _MaintenanceRequests.cshtml -->
+@model TroiSinhVien.Models.ViewModels.Dashboard.DashboardPageViewModel
+
+<div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm select-none">
+    <!-- Header -->
+    <div class="flex items-center justify-between gap-3 mb-5 shrink-0">
+        <div>
+            <h3 class="text-base font-extrabold text-slate-800">Yêu cầu sửa chữa & bảo trì</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Sự cố kỹ thuật và đề nghị hỗ trợ từ người thuê</p>
+        </div>
+        <a href="#" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">Xem tất cả</a>
+    </div>
+
+    <!-- Requests Rows -->
+    <div class="space-y-3">
+        @if (Model.MaintenanceRequests.Count == 0)
+        {
+            <div class="py-12 text-center text-slate-400">
+                <i data-lucide="smile" class="w-8 h-8 mx-auto text-emerald-500 mb-2"></i>
+                <p class="text-xs">Không có yêu cầu bảo trì nào cần xử lý</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var request in Model.MaintenanceRequests)
+            {
+                <div class="p-3 bg-slate-50 hover:bg-slate-100 border border-slate-100/30 rounded-xl transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group">
+                    <div class="flex items-start gap-3 min-w-0">
+                        <!-- Category Icon representation -->
+                        <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                            @if (request.Category == "Điện")
+                            {
+                                <i data-lucide="zap" class="w-4.5 h-4.5"></i>
+                            }
+                            else if (request.Category == "Nước")
+                            {
+                                <i data-lucide="droplet" class="w-4.5 h-4.5"></i>
+                            }
+                            else if (request.Category == "Internet")
+                            {
+                                <i data-lucide="wifi" class="w-4.5 h-4.5"></i>
+                            }
+                            else
+                            {
+                                <i data-lucide="wrench" class="w-4.5 h-4.5"></i>
+                            }
+                        </div>
+                        
+                        <div class="min-w-0">
+                            <div class="flex items-center flex-wrap gap-2">
+                                <span class="text-sm font-extrabold text-slate-800">Phòng @request.RoomCode</span>
+                                <span class="text-xs text-slate-400 font-semibold">• @request.SubmittedTimeText</span>
+                            </div>
+                            <p class="text-xs text-slate-500 font-medium truncate max-w-sm sm:max-w-md md:max-w-lg mt-1 group-hover:text-slate-700 transition-colors">@request.Description</p>
+                        </div>
+                    </div>
+
+                    <!-- Priority & Status Badges column -->
+                    <div class="flex items-center gap-3.5 shrink-0 self-end sm:self-center">
+                        <!-- Priority label -->
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xxs font-bold uppercase
+                                     @(request.Priority == "High" ? "bg-rose-50 text-rose-600 border border-rose-100" :
+                                       request.Priority == "Medium" ? "bg-amber-50 text-amber-600 border border-amber-100" :
+                                       "bg-slate-50 text-slate-500 border border-slate-100")">
+                            @request.Priority
+                        </span>
+
+                        <!-- Status badge -->
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xxs font-bold border
+                                     @(request.Status == "New" ? "bg-sky-50 text-sky-700 border-sky-100" :
+                                       request.Status == "In-Progress" ? "bg-amber-50 text-amber-700 border-amber-100" :
+                                       "bg-emerald-50 text-emerald-700 border-emerald-100")">
+                            @(request.Status == "New" ? "Yêu cầu mới" : 
+                              request.Status == "In-Progress" ? "Đang sửa" : "Đã sửa xong")
+                        </span>
+
+                        <!-- Detail action -->
+                        <button class="p-1 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">
+                            <i data-lucide="eye" class="w-4.5 h-4.5"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-slate-50">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] | @TroiSinhVien.Models.BrandConstants.ProductName</title>
+
+    <!-- Google Fonts: Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Be Vietnam Pro', 'Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            DEFAULT: 'hsl(243, 75%, 59%)',
+                            dark: 'hsl(243, 75%, 51%)',
+                            light: 'hsl(243, 75%, 92%)',
+                        },
+                        success: {
+                            DEFAULT: 'hsl(161, 84%, 39%)',
+                            light: 'hsl(161, 84%, 95%)',
+                        },
+                        warning: {
+                            DEFAULT: 'hsl(38, 92%, 50%)',
+                            light: 'hsl(38, 92%, 95%)',
+                        },
+                        danger: {
+                            DEFAULT: 'hsl(343, 84%, 50%)',
+                            light: 'hsl(343, 84%, 95%)',
+                        },
+                        info: {
+                            DEFAULT: 'hsl(199, 89%, 48%)',
+                            light: 'hsl(199, 89%, 95%)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Global CSS Site Styles -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    <!-- Alpine.js & Plugins -->
+    <script defer src="https://unpkg.com/@@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="h-full text-slate-800 antialiased" 
+      x-data="{ 
+          sidebarCollapsed: false, 
+          mobileSidebarOpen: false, 
+          searchOpen: false, 
+          notificationOpen: false, 
+          profileOpen: false, 
+          propertySelectOpen: false, 
+          activeProperty: 'Khu Trọ A', 
+          currentMonth: 'Tháng 7/2026', 
+          pageState: 'normal', /* normal, loading, empty */
+          toastStack: [] 
+      }"
+      x-init="
+          $watch('sidebarCollapsed', value => localStorage.setItem('sidebar_collapsed', value));
+          sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+      "
+      @@keydown.escape.window="
+          searchOpen = false; 
+          mobileSidebarOpen = false; 
+          notificationOpen = false; 
+          profileOpen = false;
+          propertySelectOpen = false;
+      "
+>
+    <!-- Screen overlay for mobile sidebar backdrop -->
+    <div class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm lg:hidden"
+         x-show="mobileSidebarOpen"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @@click="mobileSidebarOpen = false"
+         style="display: none;">
+    </div>
+
+    <div class="flex h-full overflow-hidden">
+        <!-- Sidebar Navigation -->
+        @await Html.PartialAsync("_Sidebar")
+
+        <!-- Main Workspace Area -->
+        <div class="flex flex-1 flex-col overflow-hidden">
+            <!-- Top Navigation Header -->
+            @await Html.PartialAsync("_Topbar")
+
+            <!-- Primary Content Scroller -->
+            <main class="flex-1 overflow-y-auto bg-slate-50 focus:outline-none" role="main" id="main-content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <!-- Slideout Navigation for Mobile Drawer -->
+    @await Html.PartialAsync("_MobileNavigation")
+
+    <!-- Floating Global Toasts Panel -->
+    @await Html.PartialAsync("_ToastContainer")
+
+    <!-- Dialog Overlays -->
+    @await Html.PartialAsync("_SearchCommand")
+    @await Html.PartialAsync("_ConfirmModal")
+
+    <!-- Core App Logic & View Modules -->
+    <script src="~/js/app/navigation.js" defer></script>
+    <script src="~/js/app/dropdowns.js" defer></script>
+    <script src="~/js/app/dialogs.js" defer></script>
+    <script src="~/js/app/toasts.js" defer></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Initialize icons -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
