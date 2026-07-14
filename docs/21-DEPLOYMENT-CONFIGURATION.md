@@ -35,4 +35,33 @@ Stop container không xóa volume. Chỉ `docker compose down -v` khi người v
 
 Lần triển khai đầu có thể đặt `BOOTSTRAP_ADMIN=true` cùng `SEED_ADMIN_EMAIL` và `SEED_ADMIN_PASSWORD`, khởi động `web` đúng một lần, sau đó tắt cờ và xóa mật khẩu bootstrap khỏi secret store. Production không tự động migrate, không tạo dữ liệu mẫu và không có tài khoản mặc định.
 
+## Free deployment cho demo
+
+Nếu cần deploy miễn phí, cấu hình khuyến nghị là Render Free Web Service + Neon Free PostgreSQL:
+
+- Render chạy app bằng `Dockerfile`; app tự đọc biến `PORT` của platform khi biến này tồn tại.
+- Neon giữ PostgreSQL lâu hơn cho demo; dùng connection string Npgsql với `SSL Mode=Require;Trust Server Certificate=true`.
+- Chạy migration từ máy local hoặc CI trước khi deploy app:
+
+```powershell
+dotnet tool restore
+$env:ConnectionStrings__DefaultConnection='Host=<host>;Database=<db>;Username=<user>;Password=<password>;SSL Mode=Require;Trust Server Certificate=true'
+dotnet ef database update --project TroiSinhVien.csproj
+```
+
+Render environment variables tối thiểu:
+
+```text
+ASPNETCORE_ENVIRONMENT=Production
+ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+ConnectionStrings__DefaultConnection=<neon-npgsql-connection-string>
+SeedData__Enabled=false
+Database__ApplyMigrationsOnStartup=false
+BootstrapAdmin__Enabled=true
+SEED_ADMIN_EMAIL=<email-admin>
+SEED_ADMIN_PASSWORD=<mat-khau-admin>
+```
+
+Sau lần deploy đầu và đăng nhập được admin, đổi `BootstrapAdmin__Enabled=false` rồi redeploy. Render free web service có cold start khi ngủ; filesystem của web service free là tạm thời, nên upload/chứng từ không phải lưu trữ bền vững. Muốn giữ file thật cần object storage hoặc hosting có persistent disk.
+
 Các artifact Docker đã được code review nhưng chưa build/chạy tại máy audit ngày 13/07/2026 vì Docker/Podman CLI không có sẵn. PostgreSQL thật và `/health` healthy là release gate bắt buộc ở môi trường triển khai.

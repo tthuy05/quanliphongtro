@@ -43,4 +43,41 @@ Migration là deployment step có chủ đích; container Production không tự
 
 Lần triển khai đầu tiên có thể đặt `BOOTSTRAP_ADMIN=true` cùng `SEED_ADMIN_EMAIL` và `SEED_ADMIN_PASSWORD`, khởi động `web` một lần để tạo tài khoản quản trị, rồi lập tức chuyển `BOOTSTRAP_ADMIN=false` và xóa mật khẩu bootstrap khỏi secret store. Tính năng này không tạo dữ liệu mẫu.
 
+## Deploy free bằng Render + Neon
+
+Phương án free dễ nhất cho demo là Render Free Web Service chạy Dockerfile của repo và Neon Free PostgreSQL làm database. Không dùng Render Free Postgres nếu cần giữ dữ liệu lâu vì gói free của Render Postgres có hạn hết hạn; Neon free phù hợp hơn cho demo dài ngày.
+
+1. Tạo database PostgreSQL free trên Neon, lấy connection string dạng ADO.NET/Npgsql:
+
+   ```text
+   Host=<host>;Database=<db>;Username=<user>;Password=<password>;SSL Mode=Require;Trust Server Certificate=true
+   ```
+
+2. Apply migration từ máy local vào Neon:
+
+   ```powershell
+   dotnet tool restore
+   $env:ConnectionStrings__DefaultConnection='Host=<host>;Database=<db>;Username=<user>;Password=<password>;SSL Mode=Require;Trust Server Certificate=true'
+   dotnet ef database update --project TroiSinhVien.csproj
+   ```
+
+3. Trên Render, tạo Web Service từ GitHub repo, chọn branch `ui`, chọn runtime `Docker`, Dockerfile path là `Dockerfile`.
+
+4. Thêm environment variables trên Render:
+
+   ```text
+   ASPNETCORE_ENVIRONMENT=Production
+   ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+   ConnectionStrings__DefaultConnection=<connection-string-neon>
+   SeedData__Enabled=false
+   Database__ApplyMigrationsOnStartup=false
+   BootstrapAdmin__Enabled=true
+   SEED_ADMIN_EMAIL=<email-admin>
+   SEED_ADMIN_PASSWORD=<mat-khau-admin>
+   ```
+
+5. Deploy lần đầu, đăng nhập bằng admin vừa bootstrap, sau đó đổi `BootstrapAdmin__Enabled=false` và redeploy.
+
+Lưu ý free tier: Render web service sẽ sleep khi không có truy cập, lần mở đầu có thể chậm. File upload/chứng từ lưu trên filesystem của web service free không bền sau redeploy/sleep; nếu cần dùng thật lâu dài thì phải thêm object storage hoặc chuyển sang gói có persistent disk.
+
 Chi tiết kiến trúc, bảo mật và deployment nằm trong thư mục `docs/`.

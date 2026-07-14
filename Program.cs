@@ -15,6 +15,12 @@ using TroiSinhVien.Services.Implementations;
 using TroiSinhVien.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+var platformPort = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrWhiteSpace(platformPort) && int.TryParse(platformPort, out _))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{platformPort}");
+}
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Thiếu ConnectionStrings__DefaultConnection. Xem docs/21-DEPLOYMENT-CONFIGURATION.md.");
 
