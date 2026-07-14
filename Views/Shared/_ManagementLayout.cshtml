@@ -8,37 +8,37 @@
 </head>
 <body class="min-h-full text-slate-800">
 <div class="min-h-screen lg:flex">
-    <aside class="bg-slate-950 p-5 text-slate-300 lg:w-64">
-        <a asp-controller="Dashboard" asp-action="Index" class="text-lg font-black text-white">TRỌ SINH VIÊN</a>
+    <aside class="border-amber-400/40 bg-[#E6C86E] p-5 text-slate-900 shadow-sm lg:w-64 lg:border-r">
+        <a asp-controller="Dashboard" asp-action="Index" class="text-lg font-black text-slate-950">TRỌ SINH VIÊN</a>
         <nav class="mt-7 grid grid-cols-2 gap-2 text-sm lg:grid-cols-1" aria-label="Điều hướng chính">
             @if (User.IsInRole(TroiSinhVien.Domain.Constants.SystemRoles.Owner))
             {
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Dashboard" asp-action="Index">Tổng quan</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="BoardingHouses" asp-action="Index">Khu trọ</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Rooms" asp-action="Index">Phòng</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Tenants" asp-action="Index">Người thuê</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Contracts" asp-action="Index">Hợp đồng</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="PropertyServices" asp-action="Index">Dịch vụ</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="MeterReadings" asp-action="Index" asp-route-propertyId="0">Điện nước</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Invoices" asp-action="Index">Hóa đơn</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Payments" asp-action="Index">Thanh toán</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Maintenance" asp-action="Index">Sửa chữa</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Reports" asp-action="Revenue">Báo cáo</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Dashboard" asp-action="Index">Tổng quan</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="BoardingHouses" asp-action="Index">Khu trọ</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Rooms" asp-action="Index">Phòng</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Tenants" asp-action="Index">Người thuê</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Contracts" asp-action="Index">Hợp đồng</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="PropertyServices" asp-action="Index">Dịch vụ</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="MeterReadings" asp-action="Index" asp-route-propertyId="0">Điện nước</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Invoices" asp-action="Index">Hóa đơn</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Payments" asp-action="Index">Thanh toán</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Maintenance" asp-action="Index">Sửa chữa</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Reports" asp-action="Revenue">Báo cáo</a>
             }
             else if (User.IsInRole(TroiSinhVien.Domain.Constants.SystemRoles.Tenant))
             {
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Tenant" asp-action="Invoices">Hóa đơn của tôi</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Tenant" asp-action="Maintenance">Sửa chữa của tôi</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Tenant" asp-action="Invoices">Hóa đơn của tôi</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Tenant" asp-action="Maintenance">Sửa chữa của tôi</a>
             }
             else if (User.IsInRole(TroiSinhVien.Domain.Constants.SystemRoles.Admin))
             {
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Admin" asp-action="Index">Quản trị</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Admin" asp-action="Audit">Nhật ký</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Admin" asp-action="Index">Quản trị</a>
+                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Admin" asp-action="Audit">Nhật ký</a>
             }
-            <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Notifications" asp-action="Index">Thông báo</a>
-            <a class="rounded-lg px-3 py-2 hover:bg-slate-800" asp-controller="Account" asp-action="Settings">Tài khoản</a>
+            <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Notifications" asp-action="Index">Thông báo</a>
+            <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Account" asp-action="Settings">Tài khoản</a>
         </nav>
-        <form asp-controller="Account" asp-action="Logout" method="post" class="mt-8"><button class="text-sm text-rose-300">Đăng xuất</button></form>
+        <form asp-controller="Account" asp-action="Logout" method="post" class="mt-8"><button class="text-sm font-semibold text-rose-900 hover:text-rose-700">Đăng xuất</button></form>
     </aside>
     <main class="min-w-0 flex-1 p-4 sm:p-8">
         <div class="mx-auto max-w-7xl">
