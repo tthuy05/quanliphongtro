@@ -1,3 +1,15 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+    bool IsCurrentPage(string controller, string? action = null) =>
+        string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase) &&
+        (action is null || string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase));
+
+    string NavigationClass(string controller, string? action = null) => IsCurrentPage(controller, action)
+        ? "rounded-lg bg-white/[0.22] px-3 py-2 font-semibold text-[#1F1A14] transition-colors"
+        : "rounded-lg px-3 py-2 text-[#4B3E2A] transition-colors hover:bg-white/[0.22] hover:text-[#1F1A14]";
+}
 <!doctype html>
 <html lang="vi" class="h-full bg-slate-50">
 <head>
@@ -8,37 +20,37 @@
 </head>
 <body class="min-h-full text-slate-800">
 <div class="min-h-screen lg:flex">
-    <aside class="border-amber-400/40 bg-[#E6C86E] p-5 text-slate-900 shadow-sm lg:w-64 lg:border-r">
-        <a asp-controller="Dashboard" asp-action="Index" class="text-lg font-black text-slate-950">TRỌ SINH VIÊN</a>
+    <aside class="border-[#4B3E2A]/20 bg-[#D8C28F] p-5 text-[#4B3E2A] shadow-sm lg:w-64 lg:border-r">
+        <a asp-controller="Dashboard" asp-action="Index" class="text-lg font-black text-[#1F1A14]">TRỌ SINH VIÊN</a>
         <nav class="mt-7 grid grid-cols-2 gap-2 text-sm lg:grid-cols-1" aria-label="Điều hướng chính">
             @if (User.IsInRole(TroiSinhVien.Domain.Constants.SystemRoles.Owner))
             {
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Dashboard" asp-action="Index">Tổng quan</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="BoardingHouses" asp-action="Index">Khu trọ</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Rooms" asp-action="Index">Phòng</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Tenants" asp-action="Index">Người thuê</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Contracts" asp-action="Index">Hợp đồng</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="PropertyServices" asp-action="Index">Dịch vụ</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="MeterReadings" asp-action="Index" asp-route-propertyId="0">Điện nước</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Invoices" asp-action="Index">Hóa đơn</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Payments" asp-action="Index">Thanh toán</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Maintenance" asp-action="Index">Sửa chữa</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Reports" asp-action="Revenue">Báo cáo</a>
+                <a class="@NavigationClass("Dashboard", "Index")" aria-current="@(IsCurrentPage("Dashboard", "Index") ? "page" : null)" asp-controller="Dashboard" asp-action="Index">Tổng quan</a>
+                <a class="@NavigationClass("BoardingHouses")" aria-current="@(IsCurrentPage("BoardingHouses") ? "page" : null)" asp-controller="BoardingHouses" asp-action="Index">Khu trọ</a>
+                <a class="@NavigationClass("Rooms")" aria-current="@(IsCurrentPage("Rooms") ? "page" : null)" asp-controller="Rooms" asp-action="Index">Phòng</a>
+                <a class="@NavigationClass("Tenants")" aria-current="@(IsCurrentPage("Tenants") ? "page" : null)" asp-controller="Tenants" asp-action="Index">Người thuê</a>
+                <a class="@NavigationClass("Contracts")" aria-current="@(IsCurrentPage("Contracts") ? "page" : null)" asp-controller="Contracts" asp-action="Index">Hợp đồng</a>
+                <a class="@NavigationClass("PropertyServices")" aria-current="@(IsCurrentPage("PropertyServices") ? "page" : null)" asp-controller="PropertyServices" asp-action="Index">Dịch vụ</a>
+                <a class="@NavigationClass("MeterReadings")" aria-current="@(IsCurrentPage("MeterReadings") ? "page" : null)" asp-controller="MeterReadings" asp-action="Index" asp-route-propertyId="0">Điện nước</a>
+                <a class="@NavigationClass("Invoices")" aria-current="@(IsCurrentPage("Invoices") ? "page" : null)" asp-controller="Invoices" asp-action="Index">Hóa đơn</a>
+                <a class="@NavigationClass("Payments")" aria-current="@(IsCurrentPage("Payments") ? "page" : null)" asp-controller="Payments" asp-action="Index">Thanh toán</a>
+                <a class="@NavigationClass("Maintenance")" aria-current="@(IsCurrentPage("Maintenance") ? "page" : null)" asp-controller="Maintenance" asp-action="Index">Sửa chữa</a>
+                <a class="@NavigationClass("Reports", "Revenue")" aria-current="@(IsCurrentPage("Reports", "Revenue") ? "page" : null)" asp-controller="Reports" asp-action="Revenue">Báo cáo</a>
             }
             else if (User.IsInRole(TroiSinhVien.Domain.Constants.SystemRoles.Tenant))
             {
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Tenant" asp-action="Invoices">Hóa đơn của tôi</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Tenant" asp-action="Maintenance">Sửa chữa của tôi</a>
+                <a class="@NavigationClass("Tenant", "Invoices")" aria-current="@(IsCurrentPage("Tenant", "Invoices") ? "page" : null)" asp-controller="Tenant" asp-action="Invoices">Hóa đơn của tôi</a>
+                <a class="@NavigationClass("Tenant", "Maintenance")" aria-current="@(IsCurrentPage("Tenant", "Maintenance") ? "page" : null)" asp-controller="Tenant" asp-action="Maintenance">Sửa chữa của tôi</a>
             }
             else if (User.IsInRole(TroiSinhVien.Domain.Constants.SystemRoles.Admin))
             {
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Admin" asp-action="Index">Quản trị</a>
-                <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Admin" asp-action="Audit">Nhật ký</a>
+                <a class="@NavigationClass("Admin", "Index")" aria-current="@(IsCurrentPage("Admin", "Index") ? "page" : null)" asp-controller="Admin" asp-action="Index">Quản trị</a>
+                <a class="@NavigationClass("Admin", "Audit")" aria-current="@(IsCurrentPage("Admin", "Audit") ? "page" : null)" asp-controller="Admin" asp-action="Audit">Nhật ký</a>
             }
-            <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Notifications" asp-action="Index">Thông báo</a>
-            <a class="rounded-lg px-3 py-2 hover:bg-white/40 hover:text-slate-950" asp-controller="Account" asp-action="Settings">Tài khoản</a>
+            <a class="@NavigationClass("Notifications", "Index")" aria-current="@(IsCurrentPage("Notifications", "Index") ? "page" : null)" asp-controller="Notifications" asp-action="Index">Thông báo</a>
+            <a class="@NavigationClass("Account", "Settings")" aria-current="@(IsCurrentPage("Account", "Settings") ? "page" : null)" asp-controller="Account" asp-action="Settings">Tài khoản</a>
         </nav>
-        <form asp-controller="Account" asp-action="Logout" method="post" class="mt-8"><button class="text-sm font-semibold text-rose-900 hover:text-rose-700">Đăng xuất</button></form>
+        <form asp-controller="Account" asp-action="Logout" method="post" class="mt-8"><button class="text-sm font-semibold text-[#7F1D1D]">Đăng xuất</button></form>
     </aside>
     <main class="min-w-0 flex-1 p-4 sm:p-8">
         <div class="mx-auto max-w-7xl">
