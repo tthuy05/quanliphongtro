@@ -24,10 +24,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 ENV ASPNETCORE_URLS=http://+:8080 \
     ASPNETCORE_ENVIRONMENT=Production
-RUN addgroup --system app && adduser --system --ingroup app app \
+RUN addgroup --system troapp && adduser --system --ingroup troapp troapp \
     && mkdir -p /app/App_Data/uploads /app/keys \
-    && chown -R app:app /app
-COPY --from=build --chown=app:app /app/publish .
-USER app
+    && chown -R troapp:troapp /app
+COPY --from=build --chown=troapp:troapp /app/publish .
+USER troapp
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "TroiSinhVien.dll"]
