@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="TroiSinhVien.csproj" />
+  <Project Path="tests/TroiSinhVien.Tests/TroiSinhVien.Tests.csproj" />
+</Solution>

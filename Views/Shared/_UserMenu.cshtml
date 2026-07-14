@@ -42,15 +42,15 @@
 
         <!-- Option actions list -->
         <div class="p-2 space-y-0.5 border-b border-slate-100 shrink-0">
-            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
+            <a href="/Account/Settings" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
                 <i data-lucide="user" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
                 <span>Hồ sơ cá nhân</span>
             </a>
-            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
+            <a href="/Account/Settings" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
                 <i data-lucide="cog" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
                 <span>Cấu hình tài khoản</span>
             </a>
-            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
+            <a href="/Home/Privacy" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
                 <i data-lucide="help-circle" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
                 <span>Trợ giúp & Hỗ trợ</span>
             </a>
@@ -58,10 +58,12 @@
 
         <!-- Log out button -->
         <div class="p-2 shrink-0">
-            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-rose-600 hover:bg-rose-50 transition-colors group">
+            <form asp-controller="Account" asp-action="Logout" method="post">
+            <button type="submit" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-rose-600 hover:bg-rose-50 transition-colors group">
                 <i data-lucide="log-out" class="w-4 h-4 text-rose-400 group-hover:text-rose-600 transition-colors"></i>
                 <span class="font-semibold">Đăng xuất</span>
-            </a>
+            </button>
+            </form>
         </div>
     </div>
 </div>

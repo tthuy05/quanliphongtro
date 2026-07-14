@@ -1,0 +1,28 @@
+@model TroiSinhVien.Models.ViewModels.MaintenanceDetailsViewModel
+@using TroiSinhVien.Domain.Enums
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{ Layout = "_ManagementLayout"; ViewData["Title"] = "Chi tiết sửa chữa"; }
+<div class="flex flex-wrap items-start justify-between gap-3">
+    <div><a href="@(Model.IsTenantView ? "/Tenant/Maintenance" : "/Maintenance")" class="text-sm text-indigo-600">← Danh sách yêu cầu</a><h1 class="mt-2 text-2xl font-bold">@Model.Title</h1><p class="mt-1 text-sm text-slate-500">@Model.BoardingHouseName · phòng @Model.RoomCode · @Model.TenantName</p></div>
+    <span class="rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700">@Model.Status</span>
+</div>
+
+<div class="mt-6 grid gap-6 lg:grid-cols-3">
+    <section class="space-y-6 lg:col-span-2">
+        <article class="rounded-2xl bg-white p-6 shadow-sm"><div class="text-sm text-slate-500">@Model.Category · @Model.Priority · gửi @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</div><p class="mt-4 whitespace-pre-line text-slate-700">@Model.Description</p>@if (Model.CompletedAt.HasValue) { <p class="mt-4 text-sm text-emerald-700">Hoàn tất lúc @Model.CompletedAt.Value.ToString("dd/MM/yyyy HH:mm")</p> }</article>
+        <section class="rounded-2xl bg-white p-6 shadow-sm">
+            <h2 class="font-bold">Trao đổi</h2>
+            <div class="mt-4 space-y-3">
+                @if (Model.Comments.Count == 0) { <p class="text-sm text-slate-500">Chưa có bình luận.</p> }
+                @foreach (var comment in Model.Comments) { <div class="rounded-xl bg-slate-50 p-4"><div class="flex justify-between gap-3 text-sm"><b>@comment.AuthorLabel</b><span class="text-slate-400">@comment.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span></div><p class="mt-2 whitespace-pre-line text-slate-700">@comment.Content</p></div> }
+            </div>
+            <form asp-controller="@(Model.IsTenantView ? "Tenant" : "Maintenance")" asp-action="@(Model.IsTenantView ? "AddMaintenanceComment" : "AddComment")" method="post" class="mt-5">
+                <input type="hidden" name="RequestId" value="@Model.Id" /><label class="text-sm font-medium" for="maintenance-comment">Thêm bình luận</label><textarea id="maintenance-comment" name="Content" required maxlength="2000" rows="3" class="mt-2 w-full rounded-xl border border-slate-200 p-3"></textarea><button class="mt-2 rounded-xl bg-indigo-600 px-4 py-2 text-white">Gửi bình luận</button>
+            </form>
+        </section>
+    </section>
+    @if (!Model.IsTenantView)
+    {
+        <aside class="rounded-2xl bg-white p-6 shadow-sm lg:self-start"><h2 class="font-bold">Cập nhật xử lý</h2><form asp-controller="Maintenance" asp-action="Update" method="post" class="mt-4 space-y-4"><input type="hidden" name="RequestId" value="@Model.Id" /><div><label class="text-sm font-medium">Trạng thái</label>@Html.DropDownList("Status", new SelectList(Enum.GetValues<MaintenanceStatus>(), Model.Status), new { @class = "mt-1 w-full rounded-xl border border-slate-200 p-3" })</div><div><label class="text-sm font-medium">Ưu tiên</label>@Html.DropDownList("Priority", new SelectList(Enum.GetValues<MaintenancePriority>(), Model.Priority), new { @class = "mt-1 w-full rounded-xl border border-slate-200 p-3" })</div><div><label class="text-sm font-medium">Ghi chú kèm cập nhật</label><textarea name="Comment" maxlength="2000" rows="3" class="mt-1 w-full rounded-xl border border-slate-200 p-3"></textarea></div><button class="w-full rounded-xl bg-indigo-600 px-4 py-2 text-white">Cập nhật</button></form></aside>
+    }
+</div>

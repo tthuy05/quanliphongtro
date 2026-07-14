@@ -31,77 +31,81 @@
     <!-- Navigation links list -->
     <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
         <!-- Dashboard Home (Active) -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium transition-all duration-200 bg-indigo-600 text-white shadow-md shadow-indigo-600/10"
+        <a href="/Dashboard" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium transition-all duration-200 bg-indigo-600 text-white shadow-md shadow-indigo-600/10"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             <span>Tổng quan</span>
         </a>
 
         <!-- Properties -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/BoardingHouses" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="building" class="w-5 h-5"></i>
             <span>Khu trọ</span>
         </a>
 
         <!-- Rooms -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/Rooms" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="key-round" class="w-5 h-5"></i>
             <span>Phòng</span>
         </a>
 
         <!-- Tenants -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/Tenants" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="users" class="w-5 h-5"></i>
             <span>Người thuê</span>
         </a>
 
         <!-- Contracts -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/Contracts" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="file-signature" class="w-5 h-5"></i>
             <span>Hợp đồng</span>
         </a>
 
+        <a href="/PropertyServices" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors">
+            <i data-lucide="list-plus" class="w-5 h-5 shrink-0"></i><span>Dịch vụ</span>
+        </a>
+
         <!-- Utilities -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/MeterReadings?propertyId=0" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="zap" class="w-5 h-5"></i>
             <span>Điện và nước</span>
         </a>
 
         <!-- Invoices -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/Invoices" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="receipt" class="w-5 h-5"></i>
             <span>Hóa đơn</span>
         </a>
 
         <!-- Payments -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/Payments" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="credit-card" class="w-5 h-5"></i>
             <span>Thanh toán</span>
         </a>
 
         <!-- Maintenance -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/Maintenance" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="wrench" class="w-5 h-5"></i>
             <span>Sửa chữa</span>
         </a>
 
         <!-- Reports -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/Reports/Revenue" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
             <span>Báo cáo</span>
         </a>
 
         <!-- Notifications -->
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/Notifications" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="bell" class="w-5 h-5"></i>
             <span>Thông báo</span>
@@ -110,7 +114,7 @@
 
     <!-- Footer Settings -->
     <div class="p-6 border-t border-slate-800">
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+        <a href="/Account/Settings" class="flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
            @@click="mobileSidebarOpen = false">
             <i data-lucide="settings" class="w-5 h-5"></i>
             <span>Cài đặt cấu hình</span>

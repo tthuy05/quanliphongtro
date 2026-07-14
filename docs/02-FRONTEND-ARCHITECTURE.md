@@ -135,3 +135,9 @@ graph LR
 *   **HTML First:** Page structure behaves perfectly without JS. Fallback static text represents charts, and details lists operate natively.
 *   **Transitions:** Custom transitions occur via standard CSS animation rules. If a script fails, components remain visible and interactable.
 *   **Esc Key and Click-Outs:** Managed universally for dialogs and menus using standard keyboard triggers.
+
+---
+
+## Database-backed integration addendum (2026-07-12)
+
+The stable rendering flow is now `DashboardController -> IDashboardService -> DashboardService -> ApplicationDbContext -> PostgreSQL -> DashboardPageViewModel`. `MockDashboardService` is no longer the runtime registration. Authentication middleware runs before authorization, and the dashboard service validates the submitted property against the authenticated owner's properties. Existing Razor partials, CSS, JavaScript, motion and responsive contracts remain unchanged.

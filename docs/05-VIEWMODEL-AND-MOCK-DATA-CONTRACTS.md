@@ -112,3 +112,9 @@ namespace TroiSinhVien.Services.Dashboard
 ```
 
 The implementation `MockDashboardService.cs` instantiates mock arrays inside C# using localized fields before returning the models to the controller.
+
+---
+
+## Backend contract addendum (2026-07-12)
+
+The class shapes above remain the Razor contract, but `DashboardService` projects owner-scoped EF Core aggregates into them. Monetary calculations remain `decimal`; formatting occurs at the presentation boundary. `ActivePropertyId` remains `int` because business entities use integer identities. A submitted property ID is never trusted without `OwnerId` filtering. Form posts use dedicated types under `Models/InputModels`; EF entities are not MVC input contracts.

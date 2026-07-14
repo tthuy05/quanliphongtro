@@ -76,6 +76,7 @@ namespace TroiSinhVien.Models.ViewModels.Dashboard
 
     public class RecentInvoiceViewModel
     {
+        public int Id { get; set; }
         public string RoomCode { get; set; } = string.Empty;
         public string TenantName { get; set; } = string.Empty;
         public string BillingMonth { get; set; } = string.Empty;
@@ -86,6 +87,7 @@ namespace TroiSinhVien.Models.ViewModels.Dashboard
 
     public class OverduePaymentViewModel
     {
+        public int InvoiceId { get; set; }
         public string RoomCode { get; set; } = string.Empty;
         public string TenantName { get; set; } = string.Empty;
         public string AmountFormatted { get; set; } = string.Empty;
@@ -94,6 +96,7 @@ namespace TroiSinhVien.Models.ViewModels.Dashboard
 
     public class ExpiringContractViewModel
     {
+        public int ContractId { get; set; }
         public string TenantName { get; set; } = string.Empty;
         public string RoomCode { get; set; } = string.Empty;
         public DateTime ExpiryDate { get; set; }
@@ -103,6 +106,7 @@ namespace TroiSinhVien.Models.ViewModels.Dashboard
 
     public class MaintenanceRequestViewModel
     {
+        public int Id { get; set; }
         public string Category { get; set; } = string.Empty; // "Điện", "Nước", "Internet", "Thiết bị", "An ninh", "Khác"
         public string RoomCode { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
@@ -137,5 +141,6 @@ namespace TroiSinhVien.Models.ViewModels.Dashboard
         public bool IsUnread { get; set; }
         public string IconName { get; set; } = "bell";
         public string Type { get; set; } = "info"; // "info", "warning", "danger", "success"
+        public string? LinkUrl { get; set; }
     }
 }

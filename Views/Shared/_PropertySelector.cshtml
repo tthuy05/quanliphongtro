@@ -10,7 +10,7 @@
         <div class="hidden sm:block">
             <div class="text-xs font-semibold text-slate-400 leading-none">Cơ sở đang xem</div>
             <div class="text-sm font-bold text-slate-800 flex items-center gap-1.5 mt-0.5">
-                <span x-text="activeProperty">@Model.Properties.Find(p => p.Id == Model.ActivePropertyId)?.Name</span>
+                <span>@Model.Properties.Find(p => p.Id == Model.ActivePropertyId)?.Name</span>
                 <i data-lucide="chevrons-up-down" class="w-3.5 h-3.5 text-slate-400"></i>
             </div>
         </div>
@@ -35,7 +35,7 @@
             @foreach (var property in Model.Properties)
             {
                 <a href="?propertyId=@property.Id"
-                   @@click="activeProperty = '@property.Name'; open = false;"
+                   @@click="open = false;"
                    class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors group @(property.Id == Model.ActivePropertyId ? "bg-indigo-50/50" : "")">
                     <div class="w-8.5 h-8.5 rounded-lg flex items-center justify-center shrink-0 @(property.Id == Model.ActivePropertyId ? "bg-indigo-100 text-indigo-700" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200")">
                         <i data-lucide="building" class="w-4 h-4"></i>

@@ -12,6 +12,10 @@ bld/
 [Oo]bj/
 [Log]s/
 [Ff]ilestore/
+App_Data/
+node_modules/
+.env
+keys/
 
 # Visual Studio cache/options
 .vs/

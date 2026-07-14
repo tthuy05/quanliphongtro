@@ -1,32 +1,23 @@
-using System;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TroiSinhVien.Domain.Constants;
 using TroiSinhVien.Services.Dashboard;
+using TroiSinhVien.Services.Interfaces;
 
-namespace TroiSinhVien.Controllers
+namespace TroiSinhVien.Controllers;
+
+[Authorize(Roles = SystemRoles.Owner)]
+public sealed class DashboardController(IDashboardService dashboardService, INotificationService notifications, ILogger<DashboardController> logger) : Controller
 {
-    public class DashboardController : Controller
+    public async Task<IActionResult> Index(int propertyId = 0, string month = "", CancellationToken ct = default)
     {
-        private readonly IDashboardService _dashboardService;
-
-        public DashboardController(IDashboardService dashboardService)
+        try { await notifications.GenerateOperationalAsync(ct); return View(await dashboardService.GetDashboardDataAsync(propertyId, month)); }
+        catch (UnauthorizedAccessException) { return NotFound(); }
+        catch (Exception ex)
         {
-            _dashboardService = dashboardService;
-        }
-
-        public async Task<IActionResult> Index(int propertyId = 1, string month = "")
-        {
-            try
-            {
-                var viewModel = await _dashboardService.GetDashboardDataAsync(propertyId, month);
-                return View(viewModel);
-            }
-            catch (Exception ex)
-            {
-                // In actual environments, log exceptions.
-                ViewData["ErrorMessage"] = "Không thể tải dữ liệu bảng điều khiển: " + ex.Message;
-                return View("Error");
-            }
+            logger.LogError(ex, "Không thể tải dashboard cho property {PropertyId}", propertyId);
+            ViewData["ErrorMessage"] = "Không thể tải dữ liệu bảng điều khiển.";
+            return View("Error");
         }
     }
 }

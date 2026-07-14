@@ -130,3 +130,9 @@ Before writing implementation code, verify that all files exist and have consist
 - [x] 09-TEST-PLAN.md created.
 - [x] 10-FILE-CHANGE-PLAN.md created.
 - [x] DECISION-LOG.md created.
+
+---
+
+## Backend plan status
+
+This file remains the completed frontend plan. The active backend roadmap is `18-BACKEND-IMPLEMENTATION-PLAN.md`. Backend work must preserve the UI, route and ViewModel decisions recorded here and execute build/test checkpoints after each major phase.

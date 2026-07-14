@@ -72,3 +72,9 @@ This plan records all files to be modified, created, or deleted during implement
 *   **[NEW]** `wwwroot/js/dashboard/counters.js`
 *   **[NEW]** `wwwroot/js/dashboard/charts.js`
 *   **[NEW]** `wwwroot/js/dashboard/viewport-motion.js`
+
+---
+
+## Backend file addendum (2026-07-12)
+
+New changes are concentrated in `Domain/`, `Data/`, `Infrastructure/`, `Authorization/`, focused `Services`, role-scoped controllers, `Models/InputModels`, migrations and the xUnit test project. `Program.cs` and `TroiSinhVien.csproj` are high-risk integration points. Existing dashboard Views/CSS/JS are preserved; only real links, authentication-aware controls and data binding may be adjusted.

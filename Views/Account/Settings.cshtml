@@ -1,0 +1,23 @@
+@model TroiSinhVien.Models.ViewModels.AccountSettingsViewModel
+@{ Layout = "_ManagementLayout"; ViewData["Title"] = "Cài đặt tài khoản"; }
+
+<div class="flex flex-wrap items-end justify-between gap-3">
+    <div><h1 class="text-2xl font-bold">Cài đặt tài khoản</h1><p class="mt-1 text-sm text-slate-500">@Model.Email · @string.Join(", ", Model.Roles)</p></div>
+</div>
+<div class="mt-6 grid gap-6 lg:grid-cols-2">
+    <form asp-action="UpdateProfile" method="post" class="space-y-4 rounded-2xl bg-white p-6 shadow-sm">
+        <h2 class="text-lg font-bold">Hồ sơ</h2>
+        <div asp-validation-summary="All" class="text-sm text-rose-600"></div>
+        <label class="block" asp-for="Profile.DisplayName">Tên hiển thị<input name="DisplayName" value="@Model.Profile.DisplayName" class="mt-1 w-full rounded-lg border p-3" autocomplete="name" /></label>
+        <label class="block" asp-for="Profile.PhoneNumber">Số điện thoại<input name="PhoneNumber" value="@Model.Profile.PhoneNumber" class="mt-1 w-full rounded-lg border p-3" autocomplete="tel" /></label>
+        <button class="rounded-xl bg-indigo-600 px-5 py-3 text-white">Lưu hồ sơ</button>
+    </form>
+    <form asp-action="ChangePassword" method="post" class="space-y-4 rounded-2xl bg-white p-6 shadow-sm">
+        <h2 class="text-lg font-bold">Đổi mật khẩu</h2>
+        <div asp-validation-summary="All" class="text-sm text-rose-600"></div>
+        <label class="block">Mật khẩu hiện tại<input name="CurrentPassword" type="password" class="mt-1 w-full rounded-lg border p-3" autocomplete="current-password" /></label>
+        <label class="block">Mật khẩu mới<input name="NewPassword" type="password" class="mt-1 w-full rounded-lg border p-3" autocomplete="new-password" /></label>
+        <label class="block">Xác nhận mật khẩu<input name="ConfirmPassword" type="password" class="mt-1 w-full rounded-lg border p-3" autocomplete="new-password" /></label>
+        <button class="rounded-xl bg-indigo-600 px-5 py-3 text-white">Đổi mật khẩu</button>
+    </form>
+</div>

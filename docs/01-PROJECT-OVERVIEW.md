@@ -90,3 +90,9 @@ The primary objective of this phase is to establish the **visual foundations, sh
 *   [ ] UI renders beautifully across 1440px, 1280px, 1024px, 768px, and 390px viewports.
 *   [ ] Verification tests pass as defined in the test plan.
 *   [ ] Screenshot artifacts are generated for key resolutions.
+
+---
+
+## Backend phase addendum (2026-07-12)
+
+The visual foundation and owner dashboard are the baseline to preserve. The current phase adds PostgreSQL persistence, ASP.NET Core Identity, resource-scoped authorization, application services, migrations, fictional development seed data and automated tests. Payment gateways, outbound SMS/Zalo/email, microservices, Redis and queues remain out of scope. Statements above that database, authentication, writes, tenant or admin behavior are “future” describe the earlier frontend phase and are superseded by docs 11-21.

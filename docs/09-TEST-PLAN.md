@@ -51,8 +51,8 @@ This plan details verification protocols, tools, manual test flows, and acceptan
 *   **Acceptance Criteria:** Dropdown container translates and fades in; clicking outside the container closes the popup; keyboard navigation (`Tab` and `Enter`) opens and closes elements.
 
 ### Empty and Loading State Toggles
-*   **Check:** Toggle testing filters.
-*   **Acceptance Criteria:** Skeletons and Empty illustrations appear inside tables, preserving spacing, showing descriptive text, and loading normal mock collections on reset.
+*   **Check:** Use filters that return no database records and reload data-backed pages.
+*   **Acceptance Criteria:** Real empty states preserve spacing and explain the next action; no mock/demo toggle exists in production UI.
 
 ---
 
@@ -69,3 +69,16 @@ This plan details verification protocols, tools, manual test flows, and acceptan
 ### Console Diagnostics
 *   **Check:** Open Browser Developer Console (F12).
 *   **Acceptance Criteria:** No red errors, warning logs, or failed asset loads (404s).
+
+---
+
+## Backend test addendum
+
+These remain required frontend regression checks. Authentication, role/resource authorization, PostgreSQL constraints, contract/meter/invoice/payment rules and data isolation are specified in `19-BACKEND-TEST-PLAN.md` and must pass in addition to this plan.
+
+## Final execution note — 13/07/2026
+
+- Debug and Release automated suites: 27 passed, 0 failed, 0 skipped.
+- Authenticated Identity/antiforgery HTTP flows for Owner, Tenant and Admin: passed using relational SQLite test infrastructure.
+- Local Kestrel smoke: login/CSS/Alpine HTTP 200; health HTTP 503 because PostgreSQL was unavailable.
+- Breakpoint renders, graphical console/network inspection, keyboard/focus audit and PostgreSQL E2E: not verified and remain release gates.

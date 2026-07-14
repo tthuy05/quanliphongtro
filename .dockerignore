@@ -1,0 +1,12 @@
+.git
+.vs
+bin
+obj
+node_modules
+tests/**/bin
+tests/**/obj
+App_Data
+keys
+.env
+*.user
+*.suo

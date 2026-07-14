@@ -34,11 +34,9 @@
                         <div class="text-sm font-extrabold text-rose-600 mt-1.5">@debt.AmountFormatted</div>
                     </div>
                     
-                    <!-- Call Action link -->
-                    <button class="px-3 py-1.5 bg-rose-50 border border-rose-100 text-rose-700 hover:bg-rose-100 hover:text-rose-800 font-bold text-xxs rounded-lg transition-colors flex items-center gap-1.5 shrink-0 select-none">
-                        <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
-                        <span>Báo nợ</span>
-                    </button>
+                    <a href="/Invoices/Details/@debt.InvoiceId" class="px-3 py-1.5 bg-rose-50 border border-rose-100 text-rose-700 hover:bg-rose-100 hover:text-rose-800 font-bold text-xxs rounded-lg transition-colors flex items-center gap-1.5 shrink-0 select-none">
+                        <i data-lucide="receipt" class="w-3.5 h-3.5"></i><span>Xem hóa đơn</span>
+                    </a>
                 </div>
             }
         }

@@ -1,0 +1,7 @@
+@model dynamic
+<form method="get" class="mt-5 flex flex-wrap items-end gap-3 rounded-2xl bg-white p-4 shadow-sm">
+    <label class="text-sm">Khu trọ<select name="PropertyId" class="mt-1 block rounded-lg border p-2"><option value="">Tất cả</option>@foreach(var property in Model.Properties){if(Model.Filter.PropertyId==property.Id){<option value="@property.Id" selected>@property.Label</option>}else{<option value="@property.Id">@property.Label</option>}}</select></label>
+    <label class="text-sm">Từ ngày<input name="FromDate" type="date" value="@Model.Filter.FromDate?.ToString("yyyy-MM-dd")" class="mt-1 block rounded-lg border p-2" /></label>
+    <label class="text-sm">Đến ngày<input name="ToDate" type="date" value="@Model.Filter.ToDate?.ToString("yyyy-MM-dd")" class="mt-1 block rounded-lg border p-2" /></label>
+    <button class="rounded-lg bg-slate-900 px-4 py-2 text-white">Lọc</button>
+</form>

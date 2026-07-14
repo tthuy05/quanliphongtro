@@ -57,3 +57,25 @@ This log records major architecture, design, library selection, and implementati
 *   **Alternatives Considered:** Renaming all namespaces, project filenames, folders, assemblies, and database entities to match the public brand name.
 *   **Reason:** Keeping internal technical names as "TroHub" (and "TroiSinhVien" namespaces) avoids introducing build-breaking changes, assembly misalignments, routing failures, or build warnings. Only user-facing views, titles, alt texts, and documentation are updated. A complete refactoring rename can be performed later as a separate task.
 *   **Consequences:** Centralized branding configuration constants `BrandConstants` are added in C# to clean up Razor templates. Developers should reference `BrandConstants.ProductName` instead of hardcoding the brand.
+
+---
+
+## [2026-07-12] Decision 8: PostgreSQL, EF Core and ASP.NET Core Identity
+* **Context:** The repository has no persistence or authentication and targets .NET 9.
+* **Decision:** Use Npgsql EF Core, `IdentityDbContext` with Guid user keys, and integer business keys to retain the existing dashboard `propertyId` contract.
+* **Consequences:** PostgreSQL is required for deployment; SQLite is allowed only as an isolated relational test adapter where PostgreSQL is unavailable.
+
+## [2026-07-12] Decision 9: Application services instead of generic repositories
+* **Context:** Ownership and financial workflows require use-case-specific queries and transactions.
+* **Decision:** Controllers call focused services; services use `ApplicationDbContext` directly and enforce owner/member scope.
+* **Consequences:** Authorization cannot be bypassed by a generic `GetById`; tests target scoped use cases.
+
+## [2026-07-12] Decision 10: Preserve financial and contract history
+* **Context:** Catalog prices and profiles change while invoices/payments must remain auditable.
+* **Decision:** Store price snapshots, UTC audit fields, cancellation reasons and use soft deletion/deactivation plus restrictive foreign keys.
+* **Consequences:** Paid financial corrections require an explicit audited workflow, not direct CRUD edits.
+
+## [2026-07-12] Decision 11: Regenerate the unapplied initial migration after review
+* **Context:** Review of the first generated migration found cascade deletes from `Contracts` to `ContractMembers` and `ContractServices`.
+* **Decision:** Because the migration had not been applied to any database, remove and recreate it once after changing both relationships to `Restrict`.
+* **Consequences:** The checked-in initial migration directly represents the reviewed historical-data policy; there is no misleading corrective migration.
