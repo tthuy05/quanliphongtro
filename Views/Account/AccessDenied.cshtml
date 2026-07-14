@@ -1,2 +1,27 @@
 @{ Layout = null; }
-<!doctype html><html lang="vi"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><title>Không có quyền truy cập</title><link rel="stylesheet" href="~/css/tailwind.generated.css" asp-append-version="true"/></head><body class="min-h-screen bg-slate-50 flex items-center justify-center"><main class="text-center"><h1 class="text-3xl font-bold">Không có quyền truy cập</h1><p class="mt-3 text-slate-500">Tài khoản của bạn không được phép thực hiện thao tác này.</p><a href="/" class="mt-6 inline-block rounded-xl bg-indigo-600 px-5 py-3 text-white">Về trang chính</a></main></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Không có quyền truy cập</title>
+    <link rel="stylesheet" href="~/css/tailwind.generated.css" asp-append-version="true"/>
+</head>
+<body class="min-h-screen bg-slate-50 flex items-center justify-center">
+<main class="max-w-md px-6 text-center">
+    <h1 class="text-3xl font-bold">Không có quyền truy cập</h1>
+    <p class="mt-3 text-slate-500">Tài khoản của bạn không được phép thực hiện thao tác này.</p>
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <a href="/" class="inline-block rounded-xl bg-indigo-600 px-5 py-3 text-white">Về trang chính</a>
+        <a href="/Account/Login" class="inline-block rounded-xl border border-slate-300 px-5 py-3 text-slate-700">Đăng nhập lại</a>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button class="rounded-xl border border-rose-200 px-5 py-3 text-rose-600" type="submit">Đăng xuất</button>
+            </form>
+        }
+    </div>
+</main>
+</body>
+</html>

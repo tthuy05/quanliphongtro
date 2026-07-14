@@ -109,7 +109,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapStaticAssets();
 app.MapHealthChecks("/health");
-app.MapControllerRoute(name: "default", pattern: "{controller=Dashboard}/{action=Index}/{id?}").WithStaticAssets();
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
 
 var applyMigrations = builder.Configuration.GetValue<bool>("Database:ApplyMigrationsOnStartup");
 var seedData = builder.Configuration.GetValue<bool>("SeedData:Enabled");

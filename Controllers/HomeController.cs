@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using TroiSinhVien.Models;
+using TroiSinhVien.Domain.Constants;
 
 namespace TroiSinhVien.Controllers;
 
@@ -15,7 +16,27 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        if (User.Identity?.IsAuthenticated != true)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        if (User.IsInRole(SystemRoles.Admin))
+        {
+            return RedirectToAction("Index", "Admin");
+        }
+
+        if (User.IsInRole(SystemRoles.Tenant))
+        {
+            return RedirectToAction("Invoices", "Tenant");
+        }
+
+        if (User.IsInRole(SystemRoles.Owner))
+        {
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        return RedirectToAction("AccessDenied", "Account");
     }
 
     public IActionResult Privacy()
