@@ -22,6 +22,18 @@ Health endpoint `/health` kiểm tra app và database; không công khai chi ti�
 - Giới hạn quyền DB user theo database ứng dụng; bật backup/restore test, log aggregation và health monitoring.
 - CSS/JavaScript frontend được pin version, build bằng npm và self-host trong `wwwroot`; runtime không phụ thuộc CDN.
 
+### MonsterASP SQL Server
+
+MonsterASP cung cấp SQL Server thay vì PostgreSQL. Cấu hình deployment cần đặt:
+
+```text
+Database__Provider=SqlServer
+Database__EnsureCreatedOnStartup=true
+ConnectionStrings__DefaultConnection=<monsterasp-sql-server-connection-string>
+```
+
+`EnsureCreatedOnStartup` chỉ dành cho database MonsterASP mới, trống. Nó tạo schema hiện tại nhưng không chuyển dữ liệu từ Neon/PostgreSQL sang SQL Server.
+
 ## Docker Compose
 
 ```powershell

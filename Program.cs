@@ -23,6 +23,7 @@ if (!string.IsNullOrWhiteSpace(platformPort) && int.TryParse(platformPort, out _
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Thiếu ConnectionStrings__DefaultConnection. Xem docs/21-DEPLOYMENT-CONFIGURATION.md.");
+var databaseProvider = builder.Configuration["Database:Provider"]?.Trim() ?? "PostgreSQL";
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -35,7 +36,16 @@ if (!string.IsNullOrWhiteSpace(dataProtectionKeysPath))
 }
 
 builder.Services.AddControllersWithViews(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    if (databaseProvider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
+        options.UseSqlServer(connectionString);
+    else if (databaseProvider.Equals("PostgreSQL", StringComparison.OrdinalIgnoreCase)
+             || databaseProvider.Equals("Npgsql", StringComparison.OrdinalIgnoreCase))
+        options.UseNpgsql(connectionString);
+    else
+        throw new InvalidOperationException($"Database provider '{databaseProvider}' is not supported.");
+});
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 {
     options.User.RequireUniqueEmail = true;
@@ -112,13 +122,17 @@ app.MapHealthChecks("/health");
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
 
 var applyMigrations = builder.Configuration.GetValue<bool>("Database:ApplyMigrationsOnStartup");
+var ensureCreated = builder.Configuration.GetValue<bool>("Database:EnsureCreatedOnStartup");
 var seedData = builder.Configuration.GetValue<bool>("SeedData:Enabled");
 var bootstrapAdmin = builder.Configuration.GetValue<bool>("BootstrapAdmin:Enabled");
-if ((app.Environment.IsDevelopment() && (applyMigrations || seedData)) || bootstrapAdmin)
+if (ensureCreated || (app.Environment.IsDevelopment() && (applyMigrations || seedData)) || bootstrapAdmin)
 {
     await using var scope = app.Services.CreateAsyncScope();
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    if (app.Environment.IsDevelopment() && applyMigrations) await db.Database.MigrateAsync();
+    if (ensureCreated)
+        await db.Database.EnsureCreatedAsync();
+    else if (app.Environment.IsDevelopment() && applyMigrations)
+        await db.Database.MigrateAsync();
     await scope.ServiceProvider.GetRequiredService<DatabaseSeeder>().SeedAsync(app.Environment.IsDevelopment() && seedData, bootstrapAdmin);
 }
 
