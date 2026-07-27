@@ -31,7 +31,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-        if (Database.IsSqlServer()) ApplySqlServerIndexFilters(builder);
 
         builder.Entity<BoardingHouse>().HasQueryFilter(x => !x.IsDeleted);
         builder.Entity<Room>().HasQueryFilter(x => !x.IsDeleted);
@@ -49,20 +48,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
         builder.Entity<MaintenanceComment>().HasQueryFilter(x => !x.IsDeleted);
         builder.Entity<Notification>().HasQueryFilter(x => !x.IsDeleted);
         builder.Entity<UploadedFile>().HasQueryFilter(x => !x.IsDeleted);
-    }
-
-    private static void ApplySqlServerIndexFilters(ModelBuilder builder)
-    {
-        foreach (var index in builder.Model.GetEntityTypes().SelectMany(x => x.GetIndexes()))
-        {
-            var filter = index.GetFilter();
-            if (string.IsNullOrWhiteSpace(filter)) continue;
-
-            index.SetFilter(filter
-                .Replace("\"IsDeleted\" = FALSE", "[IsDeleted] = 0", StringComparison.Ordinal)
-                .Replace("\"MoveOutDate\"", "[MoveOutDate]", StringComparison.Ordinal)
-                .Replace("\"Status\"", "[Status]", StringComparison.Ordinal));
-        }
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
